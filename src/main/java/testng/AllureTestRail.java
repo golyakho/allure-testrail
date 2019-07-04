@@ -20,6 +20,9 @@ import properties.PropertyNames;
 import testrail.TestCase;
 import testrail.TestRailClient;
 
+/**
+ * @author holiakho.
+ */
 public class AllureTestRail {
 
     private static final List<BiConsumer<TestCase, TestResult>> handlers = new ArrayList<>();

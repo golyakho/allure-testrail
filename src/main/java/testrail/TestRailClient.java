@@ -23,6 +23,9 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.ssl.SSLContextBuilder;
 
+/**
+ * @author holiakho.
+ */
 public class TestRailClient {
 
     private final ObjectMapper objectMapper = new ObjectMapper();

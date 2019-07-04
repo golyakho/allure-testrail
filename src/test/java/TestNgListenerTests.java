@@ -12,10 +12,20 @@ import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.Parameter;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import testng.AllureTestRail;
+import testng.TestRailListener;
 
+@Listeners(TestRailListener.class)
 public class TestNgListenerTests {
+
+    @BeforeSuite
+    public void beforeSuite() {
+
+    }
+
 
     private final static String testCaseId = "123";
     private ClientAndServer mockServer;
@@ -34,13 +44,10 @@ public class TestNgListenerTests {
 
     @Test
     public void test() {
-        AllureTestRail.registerHandler((testCase, testResult) ->
-                                           testResult.setDescription(testCase.getCustomCaseDescription()));
-
-        serverClient
-            .when(request().withPath("/testrail/index.php")
-                           .withQueryStringParameter(Parameter.param("/api/v2/get_case/123")))
-            .respond(response("{\"custom_case_description\":\"description\"}"));
+        serverClient.when(request().withPath("/testrail/index.php")
+                                   .withQueryStringParameter(Parameter.param("/api/v2/get_case/123")))
+                    .respond(response("{\"custom_case_description\":\"description\"}"));
+        AllureTestRail.registerHandler((tC, tR) -> tR.setDescription(tC.getCustomCaseDescription()));
 
         AllureTestRail.executeHandlers(getDummyMethod());
 
